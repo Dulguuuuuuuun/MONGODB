@@ -1,10 +1,12 @@
 import  express from "express";
-import { getAllUsers, createUser } from "../contoller/user.js";
+import { getAllUsers, createUser, deleteUserById, updateUser, getElementById } from "../contoller/user.js";
 
 const router = express.Router();
 
-router.get("/users",getAllUsers )
-router.post("/users", createUser)
+router.route("/").get(getAllUsers).post(createUser);
+
+router.route("/:id").get(getElementById).put(updateUser).delete(deleteUserById);
+ 
 
 
 
