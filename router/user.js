@@ -1,11 +1,11 @@
 import  express from "express";
-import { getAllUsers, createUser, deleteUserById, updateUser, getElementById } from "../contoller/user.js";
+import { getAllusers, createUsers, deleteUserById, updateUser, getUserById } from "../contoller/user.js";
 
 const router = express.Router();
 
-router.route("/").get(getAllUsers).post(createUser);
+router.route("/").get(getAllusers).post(createUsers);
 
-router.route("/:id").get(getElementById).put(updateUser).delete(deleteUserById);
+router.route("/:id").get(getUserById).put(updateUser).delete(deleteUserById);
  
 
 

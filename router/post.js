@@ -1,13 +1,8 @@
-import  express from "express";
-import { getPostById } from "../contoller/post.js";
+import express from "express";
+import { createPosts, deletePosts, getAllPosts, getPostById } from "../contoller/post.js";
+const postsRouter = express.Router();
 
-const router = express.Router();
+postsRouter.route("/").get(getAllPosts).post(createPosts);
+postsRouter.route("/:id").delete(deletePosts).get(getPostById);
 
-// router.route("/").get(getAllUsers).post(createUser);
-
-router.route("/:id").get(getPostById)
- 
-
-
-
-export default router;
+export default postsRouter;

@@ -1,30 +1,61 @@
 import Post from "../model/Post.js";
 
+export const getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find({});
+    res.status(200).send({
+      Post: posts,
+    });
+  } catch (error) {
+    res.status(400).send({
+      success: false,
+      data: error.message,
+    });
+  }
+};
 
-export const createPost = async (req, res)=>{
-    try {
-        const post = Post.create(req.body)
-        if(!post) throw new Error(req.body)
-    } catch (error) {
-        res.send(
-            data : post,
-        )
-    }
-}
+export const createPosts = async (req, res) => {
+  try {
+    const post = await Post.create(req.body);
+    res.status(200).send({
+      success: true,
+      data: post,
+    });
+  } catch (error) {
+    res.status(400).send({
+      success: false,
+      data: error.message,
+    });
+  }
+};
 
+export const deletePosts = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const post = await Post.deleteOne({ _id: id });
+    res.status(200).send({
+      success: true,
+      data: post,
+    });
+  } catch (error) {
+    res.status(400).send({
+      success: false,
+      data: error.message,
+    });
+  }
+};
 export const getPostById = async (req, res) => {
-    try {
-        const {id} =req.params;
-        const user = await User.findById(id);
-        res.status(200).send({
-            success : true,
-            data : user
-        })
-    } catch (error) {
-       res.status(400).send({
-        success : false,
-        data : error.message
-       })
-        
-    }
-}
+  try {
+    const id = req.params.id;
+    const postById = await Post.findById(id);
+    res.status(200).send({
+      success: true,
+      data: postById,
+    });
+  } catch (error) {
+    res.status(400).send({
+      success: false,
+      data: error.message,
+    });
+  }
+};

@@ -1,50 +1,53 @@
-import express from "express";
 import User from "../model/User.js";
-const users = [];
-export const getAllUsers = async (req, res) => {
-  const users = await User.find({});
-  if (!users) throw new Error("Not Found", 400);
+export const getAllusers = async (req, res) => {
+  const users = await User.find({}); //buh useriig avj bn
+  if (!users) throw new Error("Not found", 400);
   res.send({
     data: users,
   });
 };
 
-export const createUser = async (req, res) => {
+export const createUsers = async (req, res) => {
   const user = await User.create(req.body);
-
-  if (!user) throw new Error("Some fucking error", 400);
-
+  if (!user) throw new Error("Haraaal oidsn error", 400);
   res.send({
     data: user,
   });
 };
-export const getElementById = async (req, res) => {
+export const getUserById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const user = await User.findById(id);
-    res.send({
-      data: user,
+    const id = req.params.id;
+    const UserById = await User.findById(id);
+    res.status(200).send({
+      success: true,
+      data: UserById,
     });
   } catch (error) {
-    res.send({
+    res.status(400).send({
+      success: false,
       data: error.message,
     });
   }
 };
-export const updataUser = async (req, res) => {
-  const { id } = req.params;
-  const user = await User.findByIdAndUpdate({ _id: id }, req.body);
-  if (!user) throw new Error("Input error", 400);
-  res.send({
-    data: user,
-  });
+
+export const deleteUserById = async (req, res) => {
+  const id = req.params.id;
+  await User.deleteOne({ _id: id });
+  res.send("Deleted");
 };
-export const deleteIdByUser = async (req, res) => {
+
+export const updateUser = async (req, res) => {
   try {
-    const { id } = req.params;
-    const user = await User.findByIdAndRemove(id);
-    res.send({
-      data: id,
+    const id = req.params.id;
+    const updatedUser = await User.findByIdAndUpdate({ _id: id }, req.body);
+    res.status(200).send({
+      success: true,
+      data: req.body,
     });
-  } catch (error) {}
+  } catch (error) {
+    res.status(400).send({
+      success: false,
+      data: error.message,
+    });
+  }
 };
